@@ -23,7 +23,7 @@ Why: the former blanket “never test CSS” instruction conflicted with this sk
 
 2. **Grepping your own code is not testing.** A test exercises code at runtime and verifies behavior. If you only checked that strings exist in built JS, you tested nothing.
 
-3. **For UI testing, ALWAYS write Playwright scripts. NEVER use Chrome MCP or Playwright MCP tools.** Chrome extension fails on localhost (ERR_CONNECTION_REFUSED). Playwright MCP gets SIGKILL from macOS. Write standalone `.mjs` scripts that import Playwright as a library.
+3. **Use standalone Playwright scripts for repeatable UI verification.** Follow the global host-specific browser policy and `browser-verification` for engine coverage. An available browser CLI or extension can support exploration; its availability is not a prerequisite for running local tests.
 
 4. **For API/data testing, use `fetch()` or the project's test client.** No browser needed for JSON responses.
 
@@ -121,23 +121,17 @@ Testing workspace provisioning, archive, restore, or provider integration?
 
 ## UI Testing with Playwright Scripts
 
-### Why Scripts, Not MCP Tools
+### Repeatable checks and host capability
 
-Chrome extension and Playwright MCP are unreliable for localhost testing:
-- Chrome extension: ERR_CONNECTION_REFUSED on localhost even when curl works
-- Playwright MCP: macOS kills the Chrome process (SIGKILL from Gatekeeper)
-- Both: slow (separate tool call per interaction), opaque errors
+Standalone scripts preserve assertions and evidence across runs. Use `browser-verification` for setup and browser selection; report the engine that actually ran. Diagnose missing executables and denied localhost binding separately. Historical Chrome-extension connection failures and macOS process failures are not universal limitations of those tools.
 
-If you find yourself calling `mcp__claude-in-chrome__*` or `mcp__playwright__*` for local testing, **stop — you're doing it wrong.**
+Source: Tejas's 2026-09-07 policy clarification scopes native Apple tooling to optional laptop Safari testing. The Linux verification workflow must not depend on that tooling or on a connected Chrome extension.
 
 ### Setup
 
 ```bash
-# Install Playwright if needed
-npx playwright install chromium
-
-# Find bundled Chromium path (macOS)
-ls ~/Library/Caches/ms-playwright/chromium-*/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+# Install the engines used by the Linux verification workflow
+npx playwright install --with-deps chromium webkit
 ```
 
 ### The Pattern: API Setup + Browser Verify
@@ -165,7 +159,6 @@ import { chromium } from 'playwright';
 
 // ── Config — adapt to your project ──
 const BASE = 'http://localhost:PORT';
-const CHROMIUM_PATH = ''; // Find with: ls ~/Library/Caches/ms-playwright/chromium-*/chrome-mac/Chromium.app/Contents/MacOS/Chromium
 
 let passed = 0, failed = 0;
 function log(msg) { console.log(`[TEST] ${msg}`); }
@@ -180,9 +173,7 @@ try {
   // const res = await fetch(`${BASE}/api/...`, { method: 'POST', ... });
 
   // ── Phase 2: Browser verification ──
-  browser = await chromium.launch({
-    executablePath: CHROMIUM_PATH, headless: true, args: ['--no-sandbox'],
-  });
+  browser = await chromium.launch();
   page = await (await browser.newContext({ viewport: { width: 1280, height: 800 } })).newPage();
 
   // Login (adapt to your app's auth)
