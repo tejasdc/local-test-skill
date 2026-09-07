@@ -7,14 +7,15 @@ description: Generic patterns for local UI and API testing. Use when writing bro
 
 Generic guide for testing local web apps. If the project has its own `local-test` skill (e.g., in `.claude/skills/`), prefer that — it will have project-specific paths, ports, credentials, and API references.
 
-## Testing Strategy: Guard Rail Testing (GRT)
+## Testing Strategy
 
-Cortex uses three testing tiers (see CLAUDE.md for details):
-- **Tier 1 — ALWAYS test:** Data persistence, middleware ordering, state machines, security, pure functions
-- **Tier 2 — Test on burn:** Write regression tests when bugs hit production
-- **Tier 3 — NEVER test:** React components, CSS, API formatting, third-party libraries
+Choose checks by observable behavior and consequence, using the project's risk and test policy:
+- Verify persistence, state transitions, and security at their actual boundaries.
+- Verify changed UI in a browser, including CSS-only changes: exercise the affected behavior and inspect mobile and desktop screenshots. Use `browser-verification` for the engine matrix and evidence format.
+- Preserve a focused regression check for a production bug. Assert the user-facing requirement (readable, contained, sensibly spaced), not just the current CSS constants.
+- Avoid tests that merely mirror component internals or retest a third-party library's own implementation; verify the integration behavior the app relies on.
 
-When implementing a feature, identify Tier 1 modules early and write tests as a parallel task alongside implementation.
+Why: the former blanket “never test CSS” instruction conflicted with this skill's own UI-testing rules. The [2026-09-07 mobile-layout incident](references/mobile-layout-incident.md) also showed that a passing geometry test can preserve a broken composition.
 
 ## Golden Rules
 
