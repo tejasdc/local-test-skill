@@ -20,6 +20,13 @@ Discover generated tests using the native runner where supported. Preserve param
 values and hierarchical titles in identities. Source declarations alone cannot prove
 runtime cardinality. Record conditional skips and excluded external probes explicitly.
 
+Exercise discovery in a clean checkout before treating it as a planning primitive.
+Load compiled runtime modules inside fixture setup or test bodies, so listing cases
+does not require running their build or allocating mutable resources. Thinkering's
+first clean release candidate on September 10, 2026 exposed module-level imports
+that worked only because the development checkout already had compiled output.
+Moving those imports into native setup preserved the tests and made cold discovery pass.
+
 Sources: [Node test runner](https://nodejs.org/api/test.html),
 [Playwright parallelism](https://playwright.dev/docs/test-parallel),
 [Vitest performance](https://vitest.dev/guide/improving-performance),
