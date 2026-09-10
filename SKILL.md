@@ -49,6 +49,10 @@ Why: the former blanket “never test CSS” instruction conflicted with this sk
 
 ## Choosing Test Type
 
+For suites that outlive an execution tool's process lifetime, preserve the runner,
+log, PID and exit-status receipt together. A printed PID or partial green log is
+not completion evidence. See [long-running verification](references/long-running-verification.md).
+
 ```
 Is the behavior in the JSON response?
   → API test (fetch/curl/test client)
