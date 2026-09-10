@@ -10,6 +10,14 @@ slow tail. If higher worker counts fail, inspect the failure and profile before
 attributing it to RAM or cores. Shared fixture corruption, expensive application
 rendering and runner contention require different corrections.
 
+Count simultaneous pools, including independent agent jobs. Per-runner worker limits
+multiply when browser, storage and HTTPS suites each launch a pool. Coordinate their
+admission in the existing orchestrator while keeping native cases parallel; record
+queue time separately and do not invent build dependencies to serialize resources.
+Thinkering's September 10 clean-gate probe measured 0.17% CPU idle with overlapping
+pools and another release job, whereas its bounded ten-worker sample passed. That
+is evidence to coordinate work, not evidence that all tests require fewer workers.
+
 Separate a large-history performance workload from representative accessibility
 scans and ordinary functional cases. Retain exact search/edit/persistence behavior
 and the large workload's evidence. Reducing data in every case would erase the scale
