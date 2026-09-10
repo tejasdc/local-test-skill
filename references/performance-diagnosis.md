@@ -18,6 +18,14 @@ Thinkering's September 10 clean-gate probe measured 0.17% CPU idle with overlapp
 pools and another release job, whereas its bounded ten-worker sample passed. That
 is evidence to coordinate work, not evidence that all tests require fewer workers.
 
+Separate throughput experiments from product latency measurements. A latency bound
+needs a declared measurement environment; run it without competing browser cases
+when those cases can dominate the measured event loop. Keep the bound and native
+workload intact. Thinkering's September 10 full matrix produced a 340 ms timer gap
+against a 250 ms typing bound while other browser cases saturated the host; the
+runner now schedules timing workloads separately from parallel functional checks.
+This prevents attributing test scheduling delay to application code.
+
 Separate a large-history performance workload from representative accessibility
 scans and ordinary functional cases. Retain exact search/edit/persistence behavior
 and the large workload's evidence. Reducing data in every case would erase the scale
