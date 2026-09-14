@@ -1,7 +1,8 @@
 # Diagnose the critical path
 
 Measure elapsed preparation, build, queueing, setup, body, teardown and collection
-separately. Summed case durations are CPU/work totals, not time to release. Preserve
+separately. Summed case durations are accumulated elapsed time, not measured CPU
+time or time to release. Use process/thread accounting for CPU claims. Preserve
 the first failed assertion timestamp separately from case/run completion.
 
 Use one frozen source, dependency set and workload for a concurrency sweep. Record

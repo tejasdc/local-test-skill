@@ -52,6 +52,7 @@ Use the repository's metadata, fixtures and evidence contract. Tests declare ide
 - Native runner and language concurrency: references/native-concurrency.md.
 - Storage, service and process ownership: references/resource-fixtures.md.
 - Timing, profiling and build reuse: references/performance-diagnosis.md.
+- Idle/background work, external measurement and advisory soak tests: references/idle-performance.md.
 - Long runner lifetime and completion receipts: references/long-running-verification.md (preserved).
 - Rendered CSS requirements and composition: references/mobile-layout-incident.md (preserved).
 - Browser input, engine coverage and visual evidence: browser-verification.
