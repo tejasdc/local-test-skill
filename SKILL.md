@@ -49,6 +49,7 @@ Use the repository's metadata, fixtures and evidence contract. Tests declare ide
 
 ## Conditional references
 
+- When to run focused tests versus a full suite, and when not to repeat one: references/test-cadence.md (the universal rule, moved from the global instructions).
 - Native runner and language concurrency: references/native-concurrency.md.
 - Storage, service and process ownership: references/resource-fixtures.md.
 - Timing, profiling and build reuse: references/performance-diagnosis.md.
