@@ -1,11 +1,15 @@
 ---
 name: local-test
-description: Design, add, repair or speed up automated tests. Choose behavioral oracles, isolated fixtures, native parallel execution and verification scope. Use for unit, API, storage, integration and browser tests; repository testing skills supply commands and fixtures.
+description: Design, add, repair or speed up automated tests, and prove a change works before saying it does. Use when choosing what counts as proof, for unit, API, storage, integration, browser and end-to-end acceptance checks, and when he says "you said you tested it", "not a single action shows up", "how did you verify that", "what kind of testing was that", "test the hell out of it", "test it overnight" or "have another agent test it". Repository testing skills supply commands and fixtures.
 ---
 
 # Tests that provide useful feedback
 
 Read the repository's testing instructions and the nearest relevant test before choosing a runner or fixture. Extend the existing system unless a measured limitation requires a change. For browser interaction or screenshot claims, also use browser-verification. CSS-only changes still need browser evidence for their rendered requirement: inspect the affected composition and responsive behavior, not only current CSS constants. See references/mobile-layout-incident.md for the failure this prevents.
+
+## Before saying it works
+
+Read references/acceptance-proof.md. "Done", "verified" and "tested" are claims about what the user will see: observed on the user's surface, by something other than the actor, on a surface that existed before the action, along the user's own path, for every row claimed, and seen failing on the broken build first. A saved record, the acting tab, a receipt, a build or a list of passing calls proves only itself.
 
 ## Choose the proof
 
@@ -49,6 +53,7 @@ Use the repository's metadata, fixtures and evidence contract. Tests declare ide
 
 ## Conditional references
 
+- What counts as proof, light checks while he works versus exhaustive unattended passes, and the independent tester loop: references/acceptance-proof.md.
 - When to run focused tests versus a full suite, and when not to repeat one: references/test-cadence.md (the universal rule, moved from the global instructions).
 - Native runner and language concurrency: references/native-concurrency.md.
 - Storage, service and process ownership: references/resource-fixtures.md.
